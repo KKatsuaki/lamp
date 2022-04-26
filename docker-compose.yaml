@@ -3,16 +3,17 @@ version: '3.7'
 services:
   mysql:
     container_name: lamp-mysql
-    build:
-      context: ./mysql
+    image: mysql:8-oracle
     volumes:
       - ./db_data:/var/lib/mysql
+      - ./mysql/config.cnf:/etc/mysql/my.cnf
       - ./mysql/init:/docker-entrypoint-initdb.d
     environment:
       - MYSQL_DATABASE=${DB_NAME:-test_db}
       - MYSQL_USER=${DB_USER:-phper}
       - MYSQL_PASSWORD=${DB_PASS:-secret}
       - MYSQL_ROOT_PASSWORD=${DB_PASS:-secret}
+      - TZ=UTC
     restart: unless-stopped
     ports:    
       - "3306:3306"
